@@ -27,6 +27,11 @@ resource "aws_internet_gateway" "metrics_production_igw" {
   vpc_id = aws_vpc.metrics_production_vpc.id
 }
 
+resource "aws_vpc_endpoint_route_table_association" "private-dynamodb" {
+  vpc_endpoint_id = aws_vpc.metrics_production_vpc.id
+  route_table_id  = aws_vpc.metrics_production_vpc.main_route_table_id
+}
+
 resource "aws_security_group" "metrics_production_sg" {
   name        = "${terraform.workspace}-metrics-production-sg"
   description = "SSH from the internet, HTTPS inbound, all outbound"
